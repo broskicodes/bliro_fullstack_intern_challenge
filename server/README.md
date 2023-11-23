@@ -13,13 +13,18 @@ npm install
 ```
 
 ## Environment Variables
-Copy the `.env.example` file to a new file named `.env`, and fill in your environment-specific variables.
+Copy the `.env.example` file to a new file named `.env`. 
 
 ```bash
 cp .env.example .env
 ```
 
-Edit the .env file to include your database access keys and other necessary environment variables.
+Then copy and paste your personal mongoDB access key as `[MY_PERSONAL_ACCESS_KEY]` into the `.env` file.
+
+```bash
+PORT=3000
+MONGODB_URI=[MY_PERSONAL_ACCESS_KEY]
+```
 
 ## Start the Server
 To start the server, run:
