@@ -28,7 +28,7 @@ To run the client in development mode with hot-reloading:
 npm run dev
 ```
 
-Your Next.js client will start on http://localhost:3000 by default.
+Your Next.js client will start on http://localhost:3001 by default.
 
 ## Build and Start for Production
 To build the application for production usage:
@@ -44,7 +44,7 @@ npm start
 ```
 
 ## Testing
-To check that your client setup is functioning correctly, navigate to http://localhost:3000 in your web browser. You should see your Next.js application running.
+To check that your client setup is functioning correctly, navigate to http://localhost:3001 in your web browser. You should see your Next.js application running.
 
 ## Troubleshooting
 If npm packages are causing issues, delete the node_modules folder and package-lock.json file and reinstall the dependencies with npm install.
