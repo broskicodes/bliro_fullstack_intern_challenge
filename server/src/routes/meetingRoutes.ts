@@ -3,6 +3,55 @@ import meetingController from '../controllers/meetingController';
 
 const router = express.Router();
 
+/*
+
+  */
+const meetingValidationMiddleware = (req: any, res: any, next: express.NextFunction) => {
+  const { 
+    title, 
+    startTime, 
+    endTime, 
+    description, 
+    participants 
+  } = req.body;
+
+  // Validate title exists
+  if (typeof title !== "string" || title.length === 0) {
+    return res.status(500).json({ message: "Invalid meeting title" })
+  }
+
+  // Validate description (allowed to be empty)
+  if (description && typeof description !== "string") {
+    return res.status(500).json({ message: "Invalid meeting description" })
+  }
+  // Validate dates (assumes dates are passed as strings in the request body)
+  const startTimeDate = new Date(startTime);
+  const endTimeDate = new Date(endTime);
+
+  if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime())) {
+    return res.status(500).json({ message: "Proviided times are not valid dates" });
+  }
+
+  // Set times to valid Date objects
+  req.body.startTime = startTimeDate;
+  req.baody.endTime = endTimeDate;
+
+  // Validate participants is an array
+  if (!participants || !Array.isArray(participants)) {
+    return res.status(500).json({ message: "Provided participants is not valid array" });
+  }
+
+  // Validate emails in participants array
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+  for (const p in participants) {
+    if (!emailRegex.test(p)) {
+      return res.status(500).json({ message: "Participants array contains invalid email" });
+    }
+  }
+
+  next();
+}
+
 /**
  * @swagger
  * /api/meetings:
@@ -25,7 +74,7 @@ const router = express.Router();
  *       500:
  *         description: Some server error
  */
-router.post('/', meetingController.createMeeting);
+router.post('/', meetingValidationMiddleware, meetingController.createMeeting);
 
 /**
  * @swagger
@@ -85,7 +134,7 @@ router.get('/:id', meetingController.getMeeting);
  *       500:
  *         description: Some server error
  */
-router.put('/:id', meetingController.updateMeeting);
+router.put('/:id', meetingValidationMiddleware, meetingController.updateMeeting); // Current validation middleware requires that valid values must be passed for all fields on update
 
 /**
  * @swagger
