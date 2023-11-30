@@ -10,6 +10,15 @@ interface MeetingProps {
   handleClose: () => void;
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const formatter = new Intl.DateTimeFormat('default', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+  return formatter.format(date);
+};
+
 const MeetingDetails: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) => {
   const [meeting, setMeeting] = useState<Meeting | null>(null);
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
@@ -32,8 +41,8 @@ const MeetingDetails: React.FC<MeetingProps> = ({ meetingId, open, handleClose }
               <div>
                 <div style={{ 'fontSize': '20px' }}>{meeting.title}</div>
                 <div>Description: {meeting.description ?? "N/A"}</div>
-                <div>Start time: {meeting.startTime}</div>
-                <div>End time: {meeting.endTime}</div>
+                <div>Start time: {formatDate(meeting.startTime)}</div>
+                <div>End time: {formatDate(meeting.endTime)}</div>
                 <div>Participants: {meeting.participants.map((participant, i) => (
                   <div key={i}>{participant}</div>
                 ))}</div>

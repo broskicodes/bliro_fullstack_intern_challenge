@@ -4,7 +4,7 @@ import meetingController from '../controllers/meetingController';
 const router = express.Router();
 
 /*
-
+  Middleware to validate meeting request body
   */
 const meetingValidationMiddleware = (req: any, res: any, next: express.NextFunction) => {
   const { 
@@ -29,12 +29,12 @@ const meetingValidationMiddleware = (req: any, res: any, next: express.NextFunct
   const endTimeDate = new Date(endTime);
 
   if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime())) {
-    return res.status(500).json({ message: "Proviided times are not valid dates" });
+    return res.status(500).json({ message: "Provided times are not valid dates" });
   }
 
   // Set times to valid Date objects
   req.body.startTime = startTimeDate;
-  req.baody.endTime = endTimeDate;
+  req.body.endTime = endTimeDate;
 
   // Validate participants is an array
   if (!participants || !Array.isArray(participants)) {
@@ -42,8 +42,8 @@ const meetingValidationMiddleware = (req: any, res: any, next: express.NextFunct
   }
 
   // Validate emails in participants array
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  for (const p in participants) {
+  const emailRegex = /\S+@\S+\.\S+/;
+  for (const p of participants) {
     if (!emailRegex.test(p)) {
       return res.status(500).json({ message: "Participants array contains invalid email" });
     }

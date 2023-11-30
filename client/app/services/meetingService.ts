@@ -16,7 +16,7 @@ export const getMeetings = async (): Promise<Meeting[]> => {
 export const createMeeting = async (meetingDetails: Meeting): Promise<string> => {
   try {
     const response = await axios.post<Meeting>(API_BASE_URL, meetingDetails);
-    return response.data.id;
+    return response.data._id;
   } catch (error) {
     console.error('Error creating meeting:', error);
     throw error;

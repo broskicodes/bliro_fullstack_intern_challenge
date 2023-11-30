@@ -2,7 +2,6 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import { Meeting, validateMeetingDetails } from "../models/Meeting";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { MeetingListContext } from "../providers/MeetingListProvider";
-import { DatePicker } from "@mui/lab";
 
 interface MeetingProps {
   meetingId: string | null;
@@ -13,6 +12,11 @@ interface MeetingProps {
 const MeetingForm: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) => {
   const [meeting, setMeeting] = useState<Partial<Meeting>>({});
   const { meetingList, createMeeting, updateMeeting } = useContext(MeetingListContext);
+
+  const close = useCallback(() => {
+    setMeeting({});
+    handleClose();
+  }, [handleClose]);
 
   const handleSubmit =  useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,14 +35,12 @@ const MeetingForm: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) =
       await createMeeting(meeting as Meeting);
     }
 
-    handleClose();
-  }, [updateMeeting, createMeeting, meeting, handleClose]);
+    close();
+  }, [updateMeeting, createMeeting, meeting, close]);
 
   useEffect(() => {
     const meeting = meetingList.find((meeting) => meeting._id === meetingId);
     setMeeting(meeting || {});
-
-    console.log(meeting, meetingId);
   }, [meetingList, meetingId]);
 
   return (
@@ -74,7 +76,7 @@ const MeetingForm: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) =
                 <input id="end" type="datetime-local" value={meeting.endTime?.replace('Z', '')} onChange={(event) => setMeeting({ ...meeting, endTime: event.target.value })} />
               </div>
               <div>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={close}>Cancel</Button>
                 <Button type="submit">Save</Button>
               </div>
             </form>
