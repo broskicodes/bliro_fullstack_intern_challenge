@@ -9,6 +9,9 @@ interface MeetingListProviderContext {
   deleteMeeting: (meetingId: string) => Promise<boolean>;
 }
 
+/*
+ * Global context for managing the list of meetings
+ */
 export const MeetingListContext = createContext<MeetingListProviderContext>({
   meetingList: [],
   createMeeting: (_meetingDetails) => {
@@ -22,6 +25,9 @@ export const MeetingListContext = createContext<MeetingListProviderContext>({
   },
 })
 
+/*
+ * Provider component for interacting with the context
+ */
 const MeetingListProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [meetingList, setMeetingList] = useState<Meeting[]>([]);
 

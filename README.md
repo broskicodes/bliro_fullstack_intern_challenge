@@ -60,3 +60,29 @@ Enhance the existing meeting application by adding new features and improving th
 
 Please ensure all features are fully implemented within a 4-hour timeframe. Good luck!
 
+----
+
+# Description of my solution
+
+## Backend
+
+- Added relevant fields to Meeting shema
+- Implemented middleware to validate meeting details on client
+- All api endpoints had already been implemented properly, so there was nothing for me to do on that front.
+
+## Frontend
+
+- Created a component to display meeting details in a modal (`components/meetingDetails.tsx`)
+- Created a component to facilitate creation and updates for meetings in a separate modal (`components/meetingForm.tsx`)
+- Created a context provider for managing the list of meetings (`providers/MeetingListProvider.tsx`)
+- Added functions for calling the new api routes to `services/meetingsService.ts`
+- Created `utils.ts` for storing simple helper functions
+- Implemented client side validation for meeting details in `models/Meeting.ts`
+
+**Note:** There is a slight bug when updating the dates of meetings due to conversion from UTC to local time
+
+## Tests
+
+Not implemented. I am not yet familiar with front-end component unit tests or back-end integration tests
+
+**Time to complete:** ~3-3.5 hours

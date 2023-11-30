@@ -8,15 +8,7 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MeetingDetails from './meetingDetails';
 import { MeetingListContext } from '../providers/MeetingListProvider';
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const formatter = new Intl.DateTimeFormat('default', {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  });
-  return formatter.format(date);
-};
+import { formatDate } from '../utils';
 
 const MeetingList: React.FC = () => {
   const { meetingList } = useContext(MeetingListContext);

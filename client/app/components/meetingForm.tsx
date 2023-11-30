@@ -29,6 +29,9 @@ const MeetingForm: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) =
       return;
     }
 
+    /* This form component is used for both creating and updating meetings.
+      * The existence of a meetingId determines whether to update of create
+      */
     if (meetingId) {
       await updateMeeting(meetingId, meeting);
     } else {

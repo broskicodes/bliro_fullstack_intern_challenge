@@ -3,21 +3,13 @@ import { Meeting } from "../models/Meeting";
 import { useContext, useEffect, useState } from "react";
 import { MeetingListContext } from "../providers/MeetingListProvider";
 import MeetingForm from "./meetingForm";
+import { formatDate } from "../utils";
 
 interface MeetingProps {
   meetingId: string | null;
   open: boolean;
   handleClose: () => void;
 }
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const formatter = new Intl.DateTimeFormat('default', {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  });
-  return formatter.format(date);
-};
 
 const MeetingDetails: React.FC<MeetingProps> = ({ meetingId, open, handleClose }) => {
   const [meeting, setMeeting] = useState<Meeting | null>(null);

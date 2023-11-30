@@ -7,6 +7,12 @@ export interface Meeting {
   participants: string[];
 }
 
+/*
+  * Helper for validating meeting details
+  * 
+  * @param meeting - meeting details
+  * @throws Error if meeting details are invalid, similar to validation done in api
+  */
 export const validateMeetingDetails = (meeting: Partial<Meeting>) => {
   if (!meeting.title) {
     throw new Error('Title is required');
