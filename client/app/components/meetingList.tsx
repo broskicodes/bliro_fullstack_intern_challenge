@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
-import { getMeetings } from '../services/meetingService';
-import { Meeting } from '../models/Meeting';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
+import MeetingDetails from './meetingDetails';
+import { MeetingListContext } from '../providers/MeetingListProvider';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -19,18 +19,26 @@ const formatDate = (dateString: string) => {
 };
 
 const MeetingList: React.FC = () => {
-  const [meetings, setMeetings] = useState<Meeting[]>([]);
+  const { meetingList } = useContext(MeetingListContext);
+  const [open, setOpen] = useState(false);
+  const [meetingId, setMeetingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    getMeetings().then(setMeetings);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setMeetingId(null);
+  }, []);
+
+  const handleOpen = useCallback((id: string) => {
+    setOpen(true);
+    setMeetingId(id);
   }, []);
 
   return (
     <Paper elevation={3}>
       <List>
-        {meetings.map((meeting, index) => (
-          <React.Fragment key={meeting.id}>
-            <ListItem alignItems="flex-start">
+        {meetingList.map((meeting, index) => (
+          <React.Fragment key={index}>
+            <ListItem alignItems="flex-start" onClick={() => handleOpen(meeting._id) } >
               <ListItemText
                 primary={meeting.title}
                 secondary={
@@ -41,10 +49,11 @@ const MeetingList: React.FC = () => {
                 }
               />
             </ListItem>
-            {index < meetings.length - 1 && <Divider variant="inset" component="li" />}
+            {index < meetingList.length - 1 && <Divider variant="inset" component="li" />}
           </React.Fragment>
         ))}
       </List>
+      <MeetingDetails open={open} meetingId={meetingId} handleClose={handleClose} />
     </Paper>
   );
 };
